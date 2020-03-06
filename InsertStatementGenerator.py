@@ -1,7 +1,7 @@
-tableName = input("\nPlease enter the table name: ")
 # This script takes a .csv file, a table name, and the number of attributes in the table
 # and generates a file containing an SQL INSERT statement with the data.
 
+tableName = input("\nPlease enter the table name: ")
 filePath = input("\nPlease enter the .csv file name: ")
 numOfAttributesPerRow = int(input("\nPlease enter the number of attributes per row: "))
 outputFileName = tableName+'_Insert_Statement.txt'
