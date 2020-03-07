@@ -17,7 +17,7 @@ def readAndWrite(csvfile,file,numlines):
             file.write("(" + ", ".join(row) + "),")
         else:
             file.write("(" + ", ".join(row) + ")")
-            count = count + 1
+        count = count + 1
             
 for dataFilePath in listdir(getcwd()):
     if isfile(dataFilePath) and ".csv" in dataFilePath:
@@ -27,29 +27,12 @@ for dataFilePath in listdir(getcwd()):
         #Read number of line at current csv file
         f = open(dataFilePath)
         numlines = len(f.readlines())
-        # Process file and extract data
-        if  "Country.csv" in dataFilePath:
-            with open(dataFilePath,"r") as csvfile:
-                file.write("INSERT INTO `country` (`Country_Name`, `Population`, `No_of_Worldcup_won`, `Manager`) VALUES\n")
-                readAndWrite(csvfile,file,numlines)
-        elif "Match_results.csv" in dataFilePath:
-            with open(dataFilePath,"r") as csvfile:
-                file.write("INSERT INTO `match_results` (`Match_id`, `Date_of_Match`, `Start_Time_Of_Match`, `Team1`,`Team2`,`Team1_score`,`Team2_score`,`Stadium_Name`,`Host_City`) VALUES\n")
-                readAndWrite(csvfile,file,numlines)
-        elif "Players.csv" in dataFilePath:
-            with open(dataFilePath,"r") as csvfile:
-                file.write("INSERT INTO `players` (`Player_id`, `Name`, `Fname`, `Lname`,`DOB`,`Country`,`Height`,`Club`,`Position`,`Caps_for_Country`,`IS_CAPTAIN`) VALUES\n")
-                readAndWrite(csvfile,file,numlines)
-        elif "Player_Assists_Goals.csv" in dataFilePath:
-            with open(dataFilePath,"r") as csvfile:
-                file.write("INSERT INTO `player_assists_goals` (`Player_id`, `No_of_Matches`, `Goals`, `Assists`,`Minutes_Played`) VALUES\n")
-                readAndWrite(csvfile,file,numlines)
-        elif "Player_Cards.csv" in dataFilePath:
-            with open(dataFilePath,"r") as csvfile:
-                file.write("INSERT INTO `player_card` (`Player_id`, `Yellow_Cards`, `Red_Cards`) VALUES\n")
-                readAndWrite(csvfile,file,numlines)
- 
         f.close()
+        # Process file and extract data
+        with open(dataFilePath,"r") as csvfile:
+            file.write("INSERT INTO "+ tableName + " VALUES\n")
+            readAndWrite(csvfile,file,numlines)
+ 
+        file.close()
             
                 
-
