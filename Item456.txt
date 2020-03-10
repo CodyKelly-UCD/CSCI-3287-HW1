@@ -383,3 +383,28 @@ ENNER VALENCIA 	Ecuador 	3
 ANDRE SCHUERRLE 	Germany 	3
 ARJEN ROBBEN 	Netherlands 	3
 */
+
+
+
+-- Queries for item 5
+
+INSERT INTO Country
+VALUE (NULL, 0.0, 0, "");
+
+INSERT INTO Country
+VALUE ("USA", 0, 0, "");
+
+INSERT INTO player_assists_goals
+VALUE (0, 0, 0, 0, 0);
+
+-- Queries for item 6
+
+DELETE FROM players WHERE players.Player_id = 3408;
+
+-- Queries for item 7
+
+INSERT INTO match_results
+VALUES
+	(65, '2014-05-13', '16:00:00', "Germany", "USA", 1, 0, "Estadio do Maracana", "Rio De Janerio"),
+	(66, '2014-09-13', '16:00:00', "France", "Argentina", 1, 0, "Estadio do Maracana", "Rio De Janerio"),
+	(67, '2014-07-13', '16:00:00', "Germany", "Argentina", 1, 0, "Estadio do Maracana", "Rio De Janerio");
