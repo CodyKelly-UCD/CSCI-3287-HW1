@@ -100,8 +100,8 @@ SELECT name, country
 FROM players
 INNER JOIN 
 (
-	SELECT MAX(Yellow_Cards), player_cards.Player_Id
-	FROM player_cards
+	SELECT MAX(Yellow_Cards), player_card.Player_Id
+	FROM player_card
 ) as c
 ON c.Player_Id=players.Player_id;
 /*
