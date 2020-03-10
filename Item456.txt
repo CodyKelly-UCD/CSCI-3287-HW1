@@ -100,10 +100,14 @@ SELECT name, country
 FROM players
 INNER JOIN 
 (
-	SELECT MAX(Yellow_Cards), player_card.Player_Id
+	SELECT Yellow_Cards,  player_card.Player_Id
 	FROM player_card
+    WHERE  player_card.Yellow_Cards = (
+        SELECT MAX(Yellow_Cards)
+            FROM player_card
+                )
 ) as c
-ON c.Player_Id=players.Player_id;
+ON c.Player_Id=players.Player_id
 /*
 name 	country 	
 CLAUDIO MARCHISIO 	Italy
