@@ -1,0 +1,385 @@
+-- Queries for item 4
+
+
+
+-- 1
+SELECT name, club, position
+FROM players
+WHERE country = "USA";
+/*
+name	club	position	
+DAMARCUS BEASLEY	Puebla FC	Defender	
+KYLE BECKERMAN	Real Salt Lake	Midfielder	
+TIM HOWARD	Everton FC	Goalkeeper	
+BRAD DAVIS	Houston Dynamo	Midfielder	
+JERMAINE JONES	Besiktas JK	Midfielder	
+NICK RIMANDO	Real Salt Lake	Goalkeeper	
+CLINT DEMPSEY	Seattle Sounders FC	Forward	
+MICHAEL BRADLEY	Toronto FC	Midfielder	
+OMAR GONZALEZ	Los Angeles Galaxy	Defender	
+JOZY ALTIDORE	Sunderland AFC	Forward	
+BRAD GUZAN	Aston Villa FC	Goalkeeper	
+ALEJANDRO BEDOYA	FC Nantes	Midfielder	
+FABIAN JOHNSON	TSG 1899 Hoffenheim	Defender	
+MIX DISKERUD	Rosenborg BK	Midfielder	
+GEOFF CAMERON	Stoke City FC	Defender	
+CHRIS WONDOLOWSKI	San Jose Earthquakes	Forward	
+GRAHAM ZUSI	Sporting Kansas City	Midfielder	
+TIMMY CHANDLER	1. FC Nuernberg	Defender	
+ARON JOHANNSSON	AZ Alkmaar	Forward	
+MATT BESLER	Sporting Kansas City	Defender	
+DEANDRE YEDLIN	Seattle Sounders FC	Defender	
+JULIAN GREEN	FC Bayern Muenchen	Midfielder	
+JOHN BROOKS	Hertha BSC	Defender	
+*/
+
+
+
+-- 2
+SELECT DISTINCT country_name
+FROM  country
+full JOIN 
+	(SELECT team1, team2
+	FROM match_results) as m
+on country_name=m.team1 or country_name = m.team2
+WHERE No_of_Worldcup_won >= 1;
+/*
+country_name 	
+Argentina
+Brazil
+England
+France
+Germany
+Italy
+Spain
+Uruguay
+*/
+
+
+
+-- 3
+SELECT DISTINCT country_name
+FROM  country
+full JOIN 
+	(SELECT team1, team2
+	FROM match_results) as m
+on country_name=m.team1 or country_name = m.team2
+WHERE No_of_Worldcup_won = 0;
+/*
+country_name	
+Algeria	
+Australia	
+Belgium	
+Bosnia & Herzegovina	
+Cameroon	
+Chile	
+Columbia	
+Costa Rica	
+Croatia	
+Ecuador	
+Ghana	
+Greece	
+Honduras	
+Iran	
+Ivory Coast	
+Japan	
+Mexico	
+Netherlands	
+Nigeria	
+Portugal	
+Russia	
+South Korea	
+Switzerland	
+USA	
+*/
+
+
+
+-- 4
+SELECT name, country
+FROM players
+INNER JOIN 
+(
+	SELECT MAX(Yellow_Cards), player_cards.Player_Id
+	FROM player_cards
+) as c
+ON c.Player_Id=players.Player_id;
+/*
+name 	country 	
+CLAUDIO MARCHISIO 	Italy
+*/
+
+
+
+-- 5
+SELECT Host_City, COUNT(Host_City)
+FROM match_results
+GROUP BY Host_City;
+/*
+Host_City	COUNT(Host_City) 	
+Belo Horizonte 	6
+Brasilia 	7
+Cuiaba 	4
+Curitiba 	4
+Fortaleza 	6
+Manaus 	4
+Natal 	4
+Porto Alegre 	5
+Recife 	5
+Rio De Janerio 	7
+Salvador 	6
+Sao Paulo 	6
+*/
+
+
+
+-- 6
+SELECT Team1, SUM(team1_score) as SCORED_BY, SUM(team2_score) as SCORED_AGAINST
+FROM Match_results
+GROUP BY Team1;
+/*
+Team1	SCORED_BY	SCORED_AGAINST 	
+Algeria 	1 	1
+Argentina 	5 	1
+Australia 	2 	6
+Belgium 	5 	2
+Bosnia & Herzegovina 	3 	1
+Brazil 	7 	13
+Cameroon 	1 	8
+Chile 	3 	1
+Columbia 	7 	1
+Costa Rica 	1 	1
+Croatia 	1 	3
+Ecuador 	0 	0
+England 	1 	2
+France 	5 	1
+Germany 	9 	3
+Ghana 	1 	2
+Greece 	2 	1
+Honduras 	1 	5
+Iran 	0 	0
+Italy 	0 	2
+Ivory Coast 	2 	1
+Japan 	1 	4
+Mexico 	1 	0
+Netherlands 	4 	1
+Nigeria 	3 	3
+Portugal 	2 	1
+Russia 	1 	1
+South Korea 	2 	5
+Spain 	1 	7
+Switzerland 	4 	6
+Uruguay 	3 	4
+USA 	2 	3
+*/
+
+
+
+-- 7
+SELECT Team2, SUM(team2_score) as SCORED_BY, SUM(team1_score) as SCORED_AGAINST
+FROM Match_results
+GROUP BY Team2;
+/*	
+Team2	SCORED_BY	SCORED_AGAINST 	
+Algeria 	6 	6
+Argentina 	3 	3
+Australia 	1 	3
+Belgium 	1 	1
+Bosnia & Herzegovina 	1 	3
+Brazil 	4 	1
+Cameroon 	0 	1
+Chile 	3 	3
+Columbia 	5 	3
+Costa Rica 	4 	1
+Croatia 	5 	3
+Ecuador 	3 	3
+England 	1 	2
+France 	5 	2
+Germany 	9 	1
+Ghana 	3 	4
+Greece 	1 	4
+Honduras 	0 	3
+Iran 	1 	4
+Italy 	2 	1
+Ivory Coast 	2 	4
+Japan 	1 	2
+Mexico 	4 	3
+Netherlands 	11 	3
+Nigeria 	0 	2
+Portugal 	2 	6
+Russia 	1 	2
+South Korea 	1 	1
+Spain 	3 	0
+Switzerland 	3 	1
+Uruguay 	1 	2
+USA 	3 	3
+*/
+
+
+
+-- 8
+SELECT *
+FROM match_results
+WHERE team1='BRAZIL' or team2='BRAZIL';
+/*
+Match_id	Date_of_Match	Start_Time_Of_Match	Team1	Team2	Team1_score	Team2_score	Stadium_Name	Host_City 	
+1 	2014-06-12 00:00:00 	17:00:00 	Brazil 	Croatia 	3 	1 	Arena de Sao Paulo 	Sao Paulo
+17 	2014-06-17 00:00:00 	16:00:00 	Brazil 	Mexico 	0 	0 	Estadio Castelao 	Fortaleza
+33 	2014-06-23 00:00:00 	17:00:00 	Cameroon 	Brazil 	1 	4 	Estadio Nacional 	Brasilia
+49 	2014-06-28 00:00:00 	13:00:00 	Brazil 	Chile 	1 	1 	Estadio Mineirao 	Belo Horizonte
+57 	2014-07-04 00:00:00 	17:00:00 	Brazil 	Columbia 	2 	1 	Estadio Castelao 	Fortaleza
+61 	2014-07-08 00:00:00 	17:00:00 	Brazil 	Germany 	1 	7 	Estadio Mineirao 	Belo Horizonte
+63 	2014-07-12 00:00:00 	17:00:00 	Brazil 	Netherlands 	0 	3 	Estadio Nacional 	Brasilia
+*/
+
+
+
+-- 9
+SELECT name, country, goals
+FROM players
+INNER JOIN player_assists_goals
+ON players.player_id=player_assists_goals.Player_id
+WHERE goals >= 1
+ORDER BY goals DESC;
+/*
+name	country	goals   	
+JAMES RODRIGUEZ	Columbia	6	
+THOMAS MUELLER	Germany	5	
+NEYMAR SANTOS JR.	Brazil	4	
+ROBIN VAN PERSIE	Netherlands	4	
+LIONEL MESSI	Argentina	4	
+ARJEN ROBBEN	Netherlands	3	
+KARIM BENZEMA	France	3	
+XHERDAN SHAQIRI	Switzerland	3	
+ENNER VALENCIA	Ecuador	3	
+ANDRE SCHUERRLE	Germany	3	
+MIROSLAV KLOSE	Germany	2	
+ISLAM SLIMANI	Algeria	2	
+AHMED MUSA	Nigeria	2	
+CLINT DEMPSEY	USA	2	
+ALEXIS SANCHEZ	Chile	2	
+BRYAN RUIZ	Costa Rica	2	
+MATS HUMMELS	Germany	2	
+OSCAR DOS SANTOS JR.	Brazil	2	
+DAVID LUIZ	Brazil	2	
+TONI KROOS	Germany	2	
+ASAMOAH GYAN	Ghana	2	
+GERVINHO YAO KOUASSI	Ivory Coast	2	
+TIM CAHILL	Australia	2	
+WILFRIED BONY	Ivory Coast	2	
+ABDELMOUMENE DJABOU	Algeria	2	
+MEMPHIS DEPAY	Netherlands	2	
+LUIS SUAREZ	Uruguay	2	
+MARIO MANDZUKIC	Croatia	2	
+JACKSON MARTINEZ	Columbia	2	
+MARIO GOETZE	Germany	2	
+IVAN PERISIC	Croatia	2	
+ANDRE AYEW	Ghana	2	
+MATHIEU VALBUENA	France	1	
+OSCAR DUARTE	Costa Rica	1	
+ADMIR MEHMEDI	Switzerland	1	
+PAUL POGBA	France	1	
+RAFAEL MARQUEZ	Mexico	1	
+EDINSON CAVANI	Uruguay	1	
+DIEGO GODIN	Uruguay	1	
+CHARLES ARANGUIZ	Chile	1	
+RAFIK HALLICHE	Algeria	1	
+ANDRES GUARDADO	Mexico	1	
+GRANIT XHAKA	Switzerland	1	
+NANI DA CUNHA	Portugal	1	
+MIRALEM PJANIC	Bosnia & Herzegovina	1	
+CRISTIANO RONALDO	Portugal	1	
+GIOVANI DOS SANTOS	Mexico	1	
+PETER ODEMWINGIE	Nigeria	1	
+FERNANDINHO LUIZ ROZA	Brazil	1	
+ORIBE PERALTA	Mexico	1	
+TEOFILO GUTIERREZ	Columbia	1	
+EDUARDO VARGAS	Chile	1	
+SAMI KHEDIRA	Germany	1	
+JUAN CUADRADO	Columbia	1	
+FRED CHAVES GUEDES	Brazil	1	
+GEORGINIO WIJNALDUM	Netherlands	1	
+THIAGO SILVA	Brazil	1	
+GONZALO HIGUAIN	Argentina	1	
+WESLEY SNEIJDER	Netherlands	1	
+MARCOS ROJO	Argentina	1	
+MESUT OEZIL	Germany	1	
+DALEY BLIND	Netherlands	1	
+JAN VERTONGHEN	Belgium	1	
+BLAISE MATUIDI	France	1	
+ANGEL DI MARIA	Argentina	1	
+KEVIN DE BRUYNE	Belgium	1	
+SOFIANE FEGHOULI	Algeria	1	
+JERMAINE JONES	USA	1	
+SOKRATIS PAPASTATHOPOULOS	Greece	1	
+GEORGIOS SAMARAS	Greece	1	
+JOEL CAMPBELL	Costa Rica	1	
+MAROUANE FELLAINI	Belgium	1	
+PABLO ARMERO	Columbia	1	
+STEFAN DE VRIJ	Netherlands	1	
+JULIAN GREEN	USA	1	
+JORGE VALDIVIA	Chile	1	
+ALEKSANDR KERZHAKOV	Russia	1	
+MARCOS URENA	Costa Rica	1	
+LEE KEUNHO	South Korea	1	
+ANDREAS SAMARIS	Greece	1	
+HARIS SEFEROVIC	Switzerland	1	
+FERNANDO TORRES	Spain	1	
+VEDAD IBISEVIC	Bosnia & Herzegovina	1	
+JUAN QUINTERO	Columbia	1	
+JAVIER HERNANDEZ	Mexico	1	
+JEAN BEAUSEJOUR	Chile	1	
+LEROY FER	Netherlands	1	
+OGNJEN VRANJES	Bosnia & Herzegovina	1	
+JUAN MATA	Spain	1	
+JOHN BROOKS	USA	1	
+VARELA SILVESTRE	Portugal	1	
+KLAAS JAN HUNTELAAR	Netherlands	1	
+BLERIM DZEMAILI	Switzerland	1	
+DAVID VILLA	Spain	1	
+WAYNE ROONEY	England	1	
+OLIVIER GIROUD	France	1	
+SHINJI OKAZAKI	Japan	1	
+DANIEL STURRIDGE	England	1	
+EDIN DZEKO	Bosnia & Herzegovina	1	
+REZA GHOOCHANNEJAD	Iran	1	
+KEISUKE HONDA	Japan	1	
+MILE JEDINAK	Australia	1	
+ALEXANDER KOKORIN	Russia	1	
+KOO JACHEOL	South Korea	1	
+SON HEUNGMIN	South Korea	1	
+DIVOCK ORIGI	Belgium	1	
+IVICA OLIC	Croatia	1	
+CLAUDIO MARCHISIO	Italy	1	
+ROMELU LUKAKU	Belgium	1	
+JOEL MATIP	Cameroon	1	
+YACINE BRAHIMI	Algeria	1	
+XABI ALONSO	Spain	1	
+MARIO BALOTELLI	Italy	1	
+MOUSSA SISSOKO	France	1	
+CARLO COSTLY	Honduras	1	
+DRIES MERTENS	Belgium	1	
+*/
+
+
+
+-- 10
+SELECT name, country, goals
+FROM players
+INNER JOIN player_assists_goals
+ON players.player_id=player_assists_goals.Player_id
+WHERE goals > 2
+ORDER BY goals DESC;
+/*
+name	country	goals
+JAMES RODRIGUEZ 	Columbia 	6
+THOMAS MUELLER 	Germany 	5
+NEYMAR SANTOS JR. 	Brazil 	4
+ROBIN VAN PERSIE 	Netherlands 	4
+LIONEL MESSI 	Argentina 	4
+KARIM BENZEMA 	France 	3
+XHERDAN SHAQIRI 	Switzerland 	3
+ENNER VALENCIA 	Ecuador 	3
+ANDRE SCHUERRLE 	Germany 	3
+ARJEN ROBBEN 	Netherlands 	3
+*/
